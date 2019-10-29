@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Desafio Técnico: Dev. Front End</title>
+    <link rel="stylesheet" type="text/css" href="planet.css" />
+    <script type="text/javascript" src="./node_modules/axios/dist/axios.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div class="background">
+        <img id="img" src="images/bb-8-final.png" width="700px" height="1000px">
+
+        <div class="container">
+            <img id="next" src="images/estrela.png" alt="next">
+            <button class="btn">NEXT</button>
+        </div>
+
+        <div class="logo">
+            <img id="logo" src="images/logo.png" width="100px" height="100px" alt="logo">
+        </div>
+        <div class="card">
+            <div class="card-back card-face">
+                <img src="images/card.jpg" width="100%" height="100%">
+            </div>
+            <div class="card-front card-face">
+                <label id="planets"></label>
+                <p>Population: <label id="population"></label></p>
+                <p>Climate: <label id="climate"></label></p>
+                <p>Terrain: <label id="terrain"></label></p>
+                <p id="pfilms">Films: <div id="films"></div></p>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        function subFunction1() {
+            var myButton = document.querySelector('button');
+
+            myButton.onclick = subFunction3;
+        }
+        function subFunction2(number) {
+
+            return Math.floor(Math.random() * number) + 1;
+
+        }
+
+        function subFunction3() {
+            document.querySelector('.card').classList.remove('flip');
+            var random = 9 //subFunction2(60);
+            axios.get(`https://swapi.co/api/planets/${random}/`)
+                .then(function (response) {
+                    document.querySelector('#planets').innerHTML = response.data.name;
+                    document.querySelector('#population').innerHTML = response.data.population;
+                    document.querySelector('#climate').innerHTML = response.data.climate;
+                    document.querySelector('#terrain').innerHTML = response.data.terrain;
+                    var films = response.data.films;
+                    var filmTitles = [];
+                    var promises = [];
+                    films.forEach(element => {
+                        const promise = axios.get(element);
+                        promises.push(promise);
+                        promise.then(responsefilm => {
+                            filmTitles.push(responsefilm.data.title);
+                        })
+                    });
+                    Promise.all(promises).then(() => {
+                        document.querySelector('#films').innerHTML = filmTitles.join(",")
+                        document.querySelector('.card').classList.add('flip');
+                    });
+                });
+        }
+        subFunction1();
+        document.querySelector('.card').onclick = function () {
+
+        };
+    </script>
+</body>
