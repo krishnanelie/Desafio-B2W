@@ -1,0 +1,40 @@
+
+#next {
+    display: flex;
+    margin-left: 700px;
+    margin-top: -340px;
+    width: 250px;
+    height: 250px;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.container img {
+    width: 100%;
+    height: auto;
+}
+
+.container .btn {
+    position: absolute;
+    top: 130px;
+    left: 125px;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-image: #555;
+    color: white;
+    font-size: 24px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    margin-left: 700px;
+}
+
+.container .btn:hover {
+    background-color: black;
+}
